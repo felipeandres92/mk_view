@@ -1,0 +1,180 @@
+<!DOCTYPE HTML>
+<!--
+	Spectral by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Juego</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<script src="src/movement.js"></script>
+		<script src="src/mk.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<link rel="stylesheet" href="styles/styles.css" />
+		<script src="JS/jquery/src/jquery-2.2.0.min.js"></script>
+		<script src="JS/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href ="JS/bootstrap-3.3.6-dist/css/bootstrap.min.css" type="text/css"></link>
+
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="landing">
+
+		<!-- Page Wrapper -->
+			<div id="page-wrapper">
+
+				<!-- Header -->
+					<header id="header" class="alt">
+						<h1><a href="index.html">Juego</a></h1>
+						<nav id="nav">
+							<ul>
+								<li class="special">
+									<a href="#menu" class="menuToggle"><span>Menu</span></a>
+									<div id="menu">
+										<ul>
+											<li><img src="images/mathi.png"></li>
+											<li><a href="index.html">Juego</a></li>
+											<li><a href="codigos.html">Cogigos QR</a></li>
+											<li><a href="preferencias.html">Preferencias</a></li>
+											<li><a href="login.html">Salir</a></li>
+										</ul>
+									</div>
+								</li>
+							</ul>
+						</nav>
+					</header>
+
+					<section id="spotlight">
+						<div class="inner">
+							<header class="major">
+								<h2>
+									<img class="logo" src="http://vignette1.wikia.nocookie.net/cartoonfatness/images/a/ab/Mortal-Kombat-Logo.png/revision/latest?cb=20150403142416" opacity="1">
+								</h2>
+								<p>
+									
+								</p>
+							</header>
+							<ul class="features">
+								<li class="icon fa-paper-plane-o">
+
+										<div id="player1Name" class="playerName">Sub-Zero</div>
+							      <div id="player1LifeBar" class="lifebar">
+							        <div class="life" id="player1Life"></div>
+							      </div>
+							      <div id="player2Name" class="playerName">Kano</div>
+							      <div id="player2LifeBar" class="lifebar">
+							        <div class="life" id="player2Life"></div>
+							      </div>
+
+							      <div id="gameEnd">
+								      <span id="gameOverLabel">
+								      <span>Game over</span>
+								      <br />press space to play again
+								      </span>
+								    </div>
+
+
+										<div id="arena"></div>
+										<div id="loading">
+											<span class="loadingLabel">Cargando...</span> 
+										</div>
+
+								</li>
+								
+							</ul>
+						</div>
+					</section>
+
+
+
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+			<script>
+			 /* Tipos de Juego
+			   basic = single
+			   network = online
+			   multiplayer = 2 jugadores local*/
+			var TipoJuego=prompt('Tipo de juego');
+			var host;
+			var sala;
+			if(TipoJuego==='network'){
+					host=prompt('Eres Host?');
+					sala=prompt('Nombre de la sala'); //tiene que ser dinamico
+			}	
+			(function () {
+				
+				function $(id) {
+					return document.getElementById(id);
+				}
+
+				function setLife(container, life) {
+					container.style.width = life + '%';
+				}
+
+				document.onkeydown = function (e) {
+					if (e.keyCode === 32) {
+						window.location.reload();
+					}
+				};
+
+				(function () {
+					var startGame = function () {
+							$('loading').style.visibility = 'hidden';
+							$('player1Name').style.visibility = 'visible';
+							$('player1LifeBar').style.visibility = 'visible';
+							$('player2Name').style.visibility = 'visible';
+							$('player2LifeBar').style.visibility = 'visible';
+							$('arena').style.visibility = 'visible';
+							$('utils').style.visibility = 'visible';
+						};
+					var options = {
+						arena: {
+							container: document.getElementById('arena'),
+							arena: mk.arenas.types.THRONE_ROOM
+						},
+						fighters: [{ name: 'Subzero' }, { name: 'Kano' }],
+						callbacks: {
+							attack: function (f, o, l) {
+								if (o.getName() === 'kano') {
+									setLife($('player2Life'), o.getLife());
+								} else {
+									setLife($('player1Life'), o.getLife());
+								}
+							}
+
+						},
+						gameType: TipoJuego,
+						isHost: /^yes$/i.test(host),
+						gameName: sala
+					   
+					};
+
+					function startNewGame() {
+						mk.start(options).ready(function () {
+							startGame();
+						});
+					}
+					startNewGame();
+				}());
+
+			}());
+		</script>
+
+	</body>
+</html>

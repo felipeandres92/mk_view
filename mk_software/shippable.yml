@@ -1,0 +1,19 @@
+#language setting
+language: node_js
+
+# version numbers
+node_js:
+  - "v4.4.7"
+
+env:
+  global:
+    - OPENSHIFT_REPO=ssh://57af901f89f5cf8a24000122@mksw-lbarreraabarca.rhcloud.com/~/git/mksw.git/
+    
+before_install:
+  - git remote -v | grep ^openshift || git remote add -m master openshift $OPENSHIFT_REPO
+
+after_success:
+  - git push -f openshift $BRANCH:master
+
+install:
+- npm install
