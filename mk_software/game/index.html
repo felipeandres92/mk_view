@@ -43,7 +43,7 @@
 										<ul>
 											<li><img src="images/mathi.png"></li>
 											<li><a href="index.html">Juego</a></li>
-											<li><a href="codigos.html">Cogigos QR</a></li>
+											<li><a href="codigos.html">Códigos QR</a></li>
 											<li><a href="preferencias.html">Preferencias</a></li>
 											<li><a href="login.html">Salir</a></li>
 										</ul>
@@ -66,7 +66,7 @@
 							<ul class="features">
 								<li class="icon fa-paper-plane-o">
 
-										<div id="player1Name" class="playerName">Sub-Zero</div>
+										<div id="player1Name" class="playerName">Kitana</div>
 							      <div id="player1LifeBar" class="lifebar">
 							        <div class="life" id="player1Life"></div>
 							      </div>
@@ -110,7 +110,7 @@
 			   basic = single
 			   network = online
 			   multiplayer = 2 jugadores local*/
-			var TipoJuego=prompt('Tipo de juego');
+			var TipoJuego='multiplayer';
 			var host;
 			var sala;
 			if(TipoJuego==='network'){
@@ -148,7 +148,7 @@
 							container: document.getElementById('arena'),
 							arena: mk.arenas.types.THRONE_ROOM
 						},
-						fighters: [{ name: 'Subzero' }, { name: 'Kano' }],
+						fighters: [{ name: 'kitana' }, { name: 'Kano' }],
 						callbacks: {
 							attack: function (f, o, l) {
 								if (o.getName() === 'kano') {

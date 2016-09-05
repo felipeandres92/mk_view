@@ -1580,7 +1580,12 @@ mk.controllers.Basic.prototype._Agente = function (pressed,k) {
 
   mk.fighters.list = {
     'subzero': true,
-    'kano': true
+    'kano': true,
+    'sonya': true,
+    'scorpion': true,
+    'liu-kang': true,
+    'raiden': true,
+    'kitana': true
   };
 
   mk.fighters.orientations = {
